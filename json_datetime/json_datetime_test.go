@@ -39,7 +39,7 @@ func TestUnmarshalJsonDateTime(t *testing.T) {
 
 	timeRFC3339, err := time.Parse(time.RFC3339, dtSample)
 	if err != nil {
-		fmt.Println(err)
+		t.Errorf("unable to parse json datetime %s : %s", dtSample, err)
 	}
 
 	marshalStruct := &TestStruct{DateTime: JsonDateTime{timeRFC3339}}
