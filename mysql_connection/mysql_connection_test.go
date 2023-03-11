@@ -17,3 +17,11 @@ func TestMySQLConnectionConnectionStringFailed(t *testing.T) {
 		t.Error(err.Error())
 	}
 }
+
+func TestMySQLConnectionConnectionClose(t *testing.T) {
+	conn, _ := NewMySQLConnection("test", "test", "test")
+	err := conn.Close()
+	if err != nil {
+		t.Error(err.Error())
+	}
+}
