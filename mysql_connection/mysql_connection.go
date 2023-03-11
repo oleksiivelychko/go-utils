@@ -12,15 +12,21 @@ type Connection struct {
 	db *sql.DB
 }
 
-func NewMySQLConnection() (*Connection, error) {
-	var dataSourceString = fmt.Sprintf(
-		"%s:%s@/%s",
-		os.Getenv("MYSQL_USERNAME"),
-		os.Getenv("MYSQL_PASSWORD"),
-		os.Getenv("MYSQL_DATABASE"),
-	)
+func NewMySQLConnection(username, password, dbname string) (*Connection, error) {
+	if username == "" {
+		username = os.Getenv("MYSQL_USERNAME")
+	}
+	if password == "" {
+		password = os.Getenv("MYSQL_PASSWORD")
+	}
+	if dbname == "" {
+		dbname = os.Getenv("MYSQL_DATABASE")
+	}
+	if username == "" || password == "" || dbname == "" {
+		return nil, fmt.Errorf("unable to get environment variables to make connection string")
+	}
 
-	db, err := sql.Open("mysql", dataSourceString)
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", username, password, dbname))
 	if err != nil {
 		return nil, err
 	}
