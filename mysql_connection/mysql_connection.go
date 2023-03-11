@@ -52,3 +52,7 @@ func NewMySQLConnection(username, password, dbname string) (*Connection, error) 
 
 	return &Connection{db}, nil
 }
+
+func (connection *Connection) selectAll(table string) (*sql.Rows, error) {
+	return connection.db.Query(fmt.Sprintf("SELECT * from %s;", table))
+}
