@@ -12,7 +12,7 @@ type ValidationError struct {
 type ValidationErrors []ValidationError
 
 type Validation struct {
-	validate *validator.Validate
+	ValidatorValidate *validator.Validate
 }
 
 func (validationError ValidationError) Error() string {
@@ -34,7 +34,7 @@ func (validationErrors ValidationErrors) Errors() []string {
 }
 
 func (validation *Validation) Validate(i interface{}) ValidationErrors {
-	validationStruct := validation.validate.Struct(i)
+	validationStruct := validation.ValidatorValidate.Struct(i)
 	if validationStruct == nil {
 		return ValidationErrors{}
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 type TestStruct struct {
-	Count int `json:"count" validate:"required,countValidator"`
+	Count int `json:"count" ValidatorValidate:"required,countValidator"`
 }
 
 func TestValidation(t *testing.T) {
