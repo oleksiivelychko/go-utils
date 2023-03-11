@@ -1,4 +1,4 @@
-module github.com/oleksivelychko/go-utils
+module github.com/oleksiivelychko/go-utils
 
 go 1.20
 
