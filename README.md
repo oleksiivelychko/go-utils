@@ -16,4 +16,4 @@
 
 📌 <a href="mysql_connection">MySQL connection</a>
 
-📌 <a href="validator">Validation</a>
+📌 <a href="validator_helper">Validator helper</a>
