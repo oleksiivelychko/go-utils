@@ -11,37 +11,42 @@ type JsonDateTime struct {
 	time.Time
 }
 
-func (t *JsonDateTime) MarshalJSON() ([]byte, error) {
+func (dt *JsonDateTime) MarshalJSON() ([]byte, error) {
 	stamp := time.Now().Format(time.RFC3339)
 	return []byte("\"" + stamp + "\""), nil
 }
 
-func (t *JsonDateTime) UnmarshalJSON(b []byte) (err error) {
-	s := strings.Trim(string(b), "\"")
-	date, err := time.Parse(time.RFC3339, s)
+func (dt *JsonDateTime) UnmarshalJSON(b []byte) (err error) {
+	dtString := strings.Trim(string(b), "\"")
+	date, err := time.Parse(time.RFC3339, dtString)
 	if err != nil {
 		return err
 	}
-	t.Time = date
+	dt.Time = date
 	return
 }
 
 //goland:noinspection GoMixedReceiverTypes
-func (t *JsonDateTime) Value() (driver.Value, error) {
+func (dt *JsonDateTime) Value() (driver.Value, error) {
 	var zeroTimestamp time.Time
-	if t.Time.UnixNano() == zeroTimestamp.UnixNano() {
+	if dt.Time.UnixNano() == zeroTimestamp.UnixNano() {
 		return nil, nil
 	}
-	return t.Time, nil
+	return dt.Time, nil
 }
 
 //goland:noinspection GoMixedReceiverTypes
-func (t *JsonDateTime) Scan(v interface{}) error {
-	dt, err := time.Parse(time.DateTime, v.(string))
+func (dt *JsonDateTime) Scan(v interface{}) error {
+	var dtBytes []byte
+	for _, b := range v.([]uint8) {
+		dtBytes = append(dtBytes, b)
+	}
+
+	dtString, err := time.Parse(time.DateTime, string(dtBytes))
 	if err != nil {
 		return fmt.Errorf("unable to convert %v to timestamp", v)
 	}
 
-	*t = JsonDateTime{dt}
+	*dt = JsonDateTime{dtString}
 	return nil
 }
