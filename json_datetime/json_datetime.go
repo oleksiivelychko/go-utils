@@ -37,9 +37,11 @@ func (t *JsonDateTime) Value() (driver.Value, error) {
 
 //goland:noinspection GoMixedReceiverTypes
 func (t *JsonDateTime) Scan(v interface{}) error {
-	if value, ok := v.(time.Time); ok {
-		*t = JsonDateTime{value}
-		return nil
+	dt, err := time.Parse(time.DateTime, v.(string))
+	if err != nil {
+		return fmt.Errorf("unable to convert %v to timestamp", v)
 	}
-	return fmt.Errorf("unable to convert %v to timestamp", v)
+
+	*t = JsonDateTime{dt}
+	return nil
 }
