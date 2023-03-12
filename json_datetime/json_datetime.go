@@ -1,6 +1,8 @@
 package json_datetime
 
 import (
+	"database/sql/driver"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -22,4 +24,22 @@ func (t *JsonDateTime) UnmarshalJSON(b []byte) (err error) {
 	}
 	t.Time = date
 	return
+}
+
+//goland:noinspection GoMixedReceiverTypes
+func (t *JsonDateTime) Value() (driver.Value, error) {
+	var zeroTimestamp time.Time
+	if t.Time.UnixNano() == zeroTimestamp.UnixNano() {
+		return nil, nil
+	}
+	return t.Time, nil
+}
+
+//goland:noinspection GoMixedReceiverTypes
+func (t *JsonDateTime) Scan(v interface{}) error {
+	if value, ok := v.(time.Time); ok {
+		*t = JsonDateTime{value}
+		return nil
+	}
+	return fmt.Errorf("unable to convert %v to timestamp", v)
 }
