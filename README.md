@@ -10,10 +10,14 @@
 
 📌 <a href="json_io">JSON (de)serializer</a>
 
+📌 <a href="local_storage">Local storage</a>
+
 📌 <a href="logger">Logger by Hashicorp</a>
 
 📌 <a href="mocking">Mocking</a>
 
 📌 <a href="mysql_connection">MySQL connection</a>
+
+📌 <a href="storage">Storage interface</a>
 
 📌 <a href="validator_helper">Validator helper</a>
